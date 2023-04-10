@@ -1,6 +1,9 @@
 package com.api.challenge.model;
 
-public record VideosDto(Long id, String titulo, String descricao, String url) {
+import jakarta.validation.constraints.NotBlank;
+
+public record VideosDto(Long id, @NotBlank String titulo,  String descricao, @NotBlank String url) {
+	
 
 	
 }

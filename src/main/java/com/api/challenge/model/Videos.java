@@ -9,23 +9,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 
-
 @Entity(name = "Videos")
 @Table(name = "videos")
 public class Videos {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
 	private String descricao;
 	private String url;
 
 	public Videos() {
-		
+
 	}
 
 	public Videos(Long id, String titulo, String descricao, String url) {
-		
+
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -37,6 +37,19 @@ public class Videos {
 		this.titulo = dados.titulo();
 		this.descricao = dados.descricao();
 		this.url = dados.url();
+	}
+
+	public void atualizarInformacoes(@Valid AtualizarVideos dados) {
+
+		if(this.titulo != null) {
+			this.titulo = dados.titulo();
+		}
+		if(this.descricao != null) {
+			this.descricao = dados.descricao();
+		}
+		if(this.url != null ) {
+			this.url = dados.url();
+		}
 	}
 
 	public Long getId() {
@@ -87,5 +100,4 @@ public class Videos {
 		Videos other = (Videos) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }
