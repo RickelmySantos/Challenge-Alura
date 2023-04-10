@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +49,7 @@ public class VideosController {
 	return ResponseEntity.ok().body(obj);
 	}
 
-	@GetMapping(value = "/videos")
+	@GetMapping
 	public ResponseEntity<Page<DetalhamentoVideosDto>>findAll(@PageableDefault Pageable paginacao){
 		var page = repository.findAll(paginacao).map(DetalhamentoVideosDto :: new);
 		return ResponseEntity.ok(page);
@@ -60,5 +61,12 @@ public class VideosController {
 		var videos = repository.getReferenceById(dados.id());
 		videos.atualizarInformacoes(dados);
 		return ResponseEntity.ok(new DetalhamentoVideosDto(videos));
+	}
+	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<Void> deletarVideos(@PathVariable Long id) {
+	repository.deleteById(id);
+	return ResponseEntity.noContent().build();
 	}
 }

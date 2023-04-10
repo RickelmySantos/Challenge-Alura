@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 @Entity(name = "Videos")
 @Table(name = "videos")
 public class Videos {
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
