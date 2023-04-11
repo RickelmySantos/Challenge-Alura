@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,8 +67,12 @@ public class VideosController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<Void> deletarVideos(@PathVariable Long id) {
-	repository.deleteById(id);
-	return ResponseEntity.noContent().build();
+	public ResponseEntity<Object> deletarVideos(@PathVariable Long id) {
+	Optional<Videos> videos = repository.findById(id);
+	if(!videos.isPresent()) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Videos não encontrado!");
 	}
+	repository.delete(videos.get());
+	return ResponseEntity.status(HttpStatus.OK).body("Video deletado com sucesso!");
+  }
 }
